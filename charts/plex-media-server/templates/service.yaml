@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "plex-media-server.fullname" . }}
+  labels:
+    {{- include "plex-media-server.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: tcp
+      protocol: TCP
+      name: tcp
+  selector:
+    {{- include "plex-media-server.selectorLabels" . | nindent 4 }}
+{{- if .Values.service.loadBalancerIP }}
+  loadBalancerIP: {{ .Values.service.loadBalancerIP }}
+{{- end }}
