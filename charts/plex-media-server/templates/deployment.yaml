@@ -27,6 +27,7 @@ spec:
       serviceAccountName: {{ include "plex-media-server.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      hostname: {{ .Values.hostname }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -34,19 +35,34 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: tcp
-              containerPort: 32400
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: tcp
+          - name: pms
+            containerPort: 32400
+          - name: http
+            containerPort: 32400
+          - name: https
+            containerPort: 32443
           readinessProbe:
             httpGet:
-              path: /
-              port: tcp
+              path: /identity
+              port: 32400
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /identity
+              port: 32400
+            initialDelaySeconds: 10
+            timeoutSeconds: 10
+          volumeMounts:
+          {{- with .Values.volume_mounts }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+      {{- with .Values.volumes }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

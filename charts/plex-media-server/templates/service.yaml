@@ -8,9 +8,9 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: tcp
+      targetPort: http
       protocol: TCP
-      name: tcp
+      name: http
   selector:
     {{- include "plex-media-server.selectorLabels" . | nindent 4 }}
 {{- if .Values.service.loadBalancerIP }}

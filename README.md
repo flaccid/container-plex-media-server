@@ -2,6 +2,12 @@
 
 Docker and Kubernetes support for running Plex Media Server.
 
+## Overview
+
+One of the main goals of this project is to standardize something that is not entirely open but also not packaged well.
+
+The official docker image is full of bad practices and hacks. Here, we'd like to try set the debian package as the start-point and not deviate from LFS standards.
+
 ## Usage
 
 ### Kubernetes & Helm
@@ -13,6 +19,16 @@ Validate the chart:
 Dry run and print out rendered YAML:
 
 `helm install --dry-run --debug plex-media-server charts/plex-media-server`
+
+Dry run and print out rendered YAML with merged values file:
+
+```
+helm install \
+  --dry-run \
+  --debug \
+  -f helm-values.local.yaml \
+    plex-media-server charts/plex-media-server
+```
 
 Install the chart:
 
@@ -35,9 +51,13 @@ helm install plex-media-server \
     charts/plex-media-server
 ```
 
-Upgrade the chart:
+Upgrade the chart, with values file:
 
-`helm upgrade plex-media-server charts/plex-media-server`
+```
+helm upgrade \
+  -f helm-values.local.yaml
+    plex-media-server charts/plex-media-server
+```
 
 Testing after deployment:
 

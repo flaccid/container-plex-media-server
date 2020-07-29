@@ -10,9 +10,13 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
 
+volumes: []
+volume_mounts: []
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
+
+hostname: plex-media-server
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -48,7 +52,7 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   hosts:
     - host: plex-media-server.local
-      paths: []
+      paths: ["/"]
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
