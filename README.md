@@ -28,7 +28,7 @@ See https://support.plex.tv/hc/en-us/articles/201543147-What-network-ports-do-I-
 In the Docker image we `EXPOSE` all ports, but its up to the operator to expose
 those ports on the LAN and WAN (e.g. on router and Kubernetes), depending on needs.
 
-Note: on for WAN only ever expose or port-forward `tcp/32400`.
+Note: for WAN, only ever expose or port-forward `tcp/32400`.
 
 ## Usage
 
