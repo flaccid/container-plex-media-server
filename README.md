@@ -4,13 +4,46 @@ Docker and Kubernetes support for running Plex Media Server.
 
 ## Overview
 
-One of the main goals of this project is to standardize something that is not entirely open but also not packaged well.
+One of the main goals of this project is to standardise something that is not entirely open but also not packaged well.
 
 The official docker image is full of bad practices and hacks. Here, we'd like to try set the debian package as the start-point and not deviate from LFS standards.
 
+## Plex Notes
+
+### Network
+
+For information and troubleshooting on networking, see:
+- https://support.plex.tv/articles/200430283-network
+- https://support.plex.tv/articles/206225077-how-to-use-secure-server-connections/
+- https://support.plex.tv/articles/200289506-remote-access/
+- https://support.plex.tv/articles/200931138-troubleshooting-remote-access/
+- https://support.plex.tv/articles/204604227-why-can-t-the-plex-app-find-or-connect-to-my-plex-media-server/
+
+***Important***: With plex.tv service discovery, it may be necessary to add a custom server access URL.
+
+#### Ports
+
+See https://support.plex.tv/hc/en-us/articles/201543147-What-network-ports-do-I-need-to-allow-through-my-firewall-.
+
+In the Docker image we `EXPOSE` all ports, but its up to the operator to expose
+those ports on the LAN and WAN (e.g. on router and Kubernetes), depending on needs.
+
+Note: on for WAN only ever expose or port-forward `tcp/32400`.
+
 ## Usage
 
-### Kubernetes & Helm
+### Kubernetes
+
+This is the recommended way to deploy and manage the Plex workload.
+
+#### Important
+
+Once you have deployed:
+
+- browse to the LAN IP you have exposed the main service, e.g. http://10.9.11.5:32400/web
+- visit `Settings->(select server)->Network` and add your pod network subnet to the `List of IP addresses and networks that are allowed without auth` (near the bottom). For example, `10.42.0.0/16`.
+
+### Helm
 
 Validate the chart:
 
@@ -54,9 +87,8 @@ helm install plex-media-server \
 Upgrade the chart, with values file:
 
 ```
-helm upgrade \
+helm upgrade plex-media-server charts/plex-media-server \
   -f helm-values.local.yaml
-    plex-media-server charts/plex-media-server
 ```
 
 Testing after deployment:
