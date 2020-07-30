@@ -41,6 +41,9 @@ spec:
             containerPort: 32400
           - name: https
             containerPort: 32443
+          env:
+          - name: TZ
+            value: "{{ .Values.timezone }}"
           readinessProbe:
             httpGet:
               path: /identity

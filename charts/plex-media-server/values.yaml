@@ -18,6 +18,28 @@ fullnameOverride: ""
 
 hostname: plex-media-server
 
+timezone: Utc/UTC
+
+service:
+  annotations: {}
+  labels: {}
+  type: ClusterIP
+  port: 32400
+  loadBalancerIP: ""
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: plex-media-server.local
+      paths: ["/"]
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
@@ -40,23 +62,7 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
-service:
-  type: ClusterIP
-  port: 32400
-  loadBalancerIP: ""
 
-ingress:
-  enabled: false
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: plex-media-server.local
-      paths: ["/"]
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
