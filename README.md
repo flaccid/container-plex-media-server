@@ -45,6 +45,8 @@ Once you have deployed:
 
 ### Helm
 
+See the chart [README.md](charts/plex-media-server/README.md) for values.
+
 Validate the chart:
 
 `helm lint charts/plex-media-server`
