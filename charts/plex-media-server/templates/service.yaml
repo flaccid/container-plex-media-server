@@ -4,6 +4,13 @@ metadata:
   name: {{ include "plex-media-server.fullname" . }}
   labels:
     {{- include "plex-media-server.labels" . | nindent 4 }}
+{{- with .Values.service.labels }}
+    {{ toYaml . | indent 6 }}
+{{- end }}
+{{- with .Values.service.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
 spec:
   type: {{ .Values.service.type }}
   ports:
