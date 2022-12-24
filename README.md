@@ -1,4 +1,4 @@
-# docker-plex-media-server
+# container-plex-media-server
 
 Docker and Kubernetes support for running Plex Media Server.
 
